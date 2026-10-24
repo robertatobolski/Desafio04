@@ -75,4 +75,17 @@ public class Personagem {
         return vida > 0;
     }
 
+    public void golpeEspecial(Personagem alvo) {
+        int ataqueEspecial = (int) (ataque * 1.3);
+        int dano = ataqueEspecial - alvo.getDefesa();
+
+        if (dano < 0) {
+            dano = 0;
+        }
+        alvo.tomarDano(dano);
+
+        System.out.println(nome + " usou o golpe especial!");
+        System.out.println("Causou " + dano + " de dano no " + alvo.getNome());
+    }
+
 }

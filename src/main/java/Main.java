@@ -3,17 +3,28 @@ import java.util.ArrayList;
 public class Main {
 
         public static void main(String[] args) {
-            Personagem p1 = new Personagem("Guerreiro", 100, 25, 12, new ArrayList<>());
-            Personagem p2 = new Personagem("Goblin", 60, 15, 3, new ArrayList<>());
+            Guerreiro g = new Guerreiro("Arthur");
+            System.out.println("Guerreiro: " + g.getNome());
+            System.out.println("Vida: " + g.getVida());
+            System.out.println("Ataque: " + g.getAtaque());
+            System.out.println("Defesa: " + g.getDefesa());
+            System.out.println("Inventário: " + g.getInventario());
 
-            p1.atacar(p2);
-            System.out.println("Vida do Goblin: " + p2.getVida());
+            Mago m = new Mago ("Edward");
+            System.out.println("Mago: " + m.getNome());
+            System.out.println("Vida: " + m.getVida());
+            System.out.println("Ataque: " + m.getAtaque());
+            System.out.println("Defesa: " + m.getDefesa());
+            System.out.println("Inventário: " + m.getInventario());
 
-            p2.tomarDano(10);
-            System.out.println("Vida do Goblin: " + p2.getVida());
 
-            p2.defender();
+            Arqueiro a = new Arqueiro("Leonard");
+            System.out.println("Arqueiro: " + a.getNome());
+            System.out.println("Vida: " + a.getVida());
+            System.out.println("Ataque: " + a.getAtaque());
+            System.out.println("Defesa: " + a.getDefesa());
+            System.out.println("Inventário: " + a.getInventario());
 
-            System.out.println("Goblin está vivo? " + p2.estaVivo());
+            g.golpeEspecial(m);
         }
     }
