@@ -1,9 +1,12 @@
+package Personagens;
+
 import java.util.List;
 import java.util.ArrayList;
 
 public class Personagem {
     protected String nome;
     protected int vida;
+    protected int vidaMaxima;
     protected int ataque;
     protected int defesa;
     protected List<String> inventario = new ArrayList<>();
@@ -11,9 +14,14 @@ public class Personagem {
     public Personagem(String nome, int vida, int ataque, int defesa, List<String> inventario){
         this.nome = nome;
         this.vida = vida;
+        this.vidaMaxima = vida;
         this.ataque = ataque;
         this.defesa = defesa;
         this.inventario = inventario;
+        inventario.add("Poção de cura");
+        inventario.add("Poção de cura");
+        inventario.add("Poção de cura");
+        inventario.add("Golpe especial");
     }
 
 
@@ -29,6 +37,13 @@ public class Personagem {
     }
     public void setVida(int vida) {
         this.vida = vida;
+    }
+
+    public int getVidaMaxima() {
+        return vidaMaxima;
+    }
+    public void setVidaMaxima(int vidaMaxima) {
+        this.vidaMaxima = vidaMaxima;
     }
 
     public int getAtaque() {
@@ -71,13 +86,25 @@ public class Personagem {
         }
     }
 
+    public void curar(int vidaRecuperada){
+        if ((vida + vidaRecuperada) > vidaMaxima){
+            vida = vidaMaxima;
+        } else {
+            vida += vidaRecuperada;
+        }
+    }
+
     public boolean estaVivo() {
         return vida > 0;
     }
 
-    public void golpeEspecial(Personagem alvo) {
-        int ataqueEspecial = (int) (ataque * 1.3);
-        int dano = ataqueEspecial - alvo.getDefesa();
+    public void golpeEspecial(Personagem alvo, boolean defendendo) {
+        int ataqueEspecial = (int) (ataque * 1.5);
+        int dano = ataqueEspecial;
+
+        if (defendendo) {
+            dano -= alvo.getDefesa();
+        }
 
         if (dano < 0) {
             dano = 0;
