@@ -22,6 +22,7 @@ public class Personagem {
         inventario.add("Poção de cura");
         inventario.add("Poção de cura");
         inventario.add("Golpe especial");
+        inventario.add("Golpe especial");
     }
 
 

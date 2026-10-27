@@ -79,8 +79,8 @@ public class Main {
 
         System.out.println("ESCOLHA SEU PERSONAGEM\n" +
                 "1 - Guerreiro (150 de vida, 25 de ataque, 8 de defesa)\n" +
-                "2 - Mago (100 de vida, 35 de ataque, 5 de defesa)\n" +
-                "3 - Arqueiro (120 de vida, 30 de ataque, 12 de defesa)");
+                "2 - Mago (120 de vida, 35 de ataque, 5 de defesa)\n" +
+                "3 - Arqueiro (100 de vida, 30 de ataque, 12 de defesa)");
 
         int personagem = sc.nextInt();
 
@@ -92,7 +92,13 @@ public class Main {
         sc.nextLine();
 
         System.out.println("Digite o nome do personagem:");
-        String nome = sc.nextLine();
+        String nome = sc.nextLine().trim();
+
+        while (nome.isEmpty()) {
+            System.out.println("O nome não pode ficar vazio!");
+            System.out.println("Digite o nome do personagem:");
+            nome = sc.nextLine().trim();
+        }
 
         Personagem jogador = null;
 
@@ -117,15 +123,25 @@ public class Main {
 
         System.out.println("\n=== INIMIGOS DA PARTIDA ===");
 
-        for (Inimigo inimigo : inimigosDaPartida) {
-            exibirInimigo(inimigo);
+        for (int i = 0; i < inimigosDaPartida.size(); i++) {
+            Inimigo inimigo = inimigosDaPartida.get(i);
+
+            while (jogador.getVida() > 0 && inimigo.getVida() > 0) {
+                exibirStatus(jogador, inimigo, i + 1, inimigosDaPartida.size());
+                turnoDoJogador(jogador, inimigo, sc, random);
+            }
+
+            if (jogador.getVida() <= 0) {
+                System.out.println("Você foi derrotado!");
+                break;
+            } else {
+                System.out.println("Você derrotou o inimigo!");
+            }
         }
 
-        exibirStatus(jogador, inimigosDaPartida.get(0));
-
-        turnoDoJogador(jogador, inimigosDaPartida.get(0), sc, random);
-
-        exibirStatus(jogador, inimigosDaPartida.get(0));
+        if (jogador.getVida() > 0) {
+            System.out.println("PARABÉNS! Você derrotou todos os inimigos e venceu a partida!");
+        }
     }
 
     public static void exibirInimigo(Inimigo inimigo) {
@@ -136,14 +152,26 @@ public class Main {
         System.out.println("Defesa: " + inimigo.getDefesa());
     }
 
-    public static void exibirStatus(Personagem jogador, Inimigo inimigo){
+
+
+    public static void exibirStatus(Personagem jogador, Inimigo inimigo, int numeroInimigo, int totalInimigos) {
         System.out.println("\n======= STATUS DA BATALHA =======");
-        System.out.println("Nome do Jogador: " + jogador.getNome() + "\n" +
-                "Vida do Jogador: " + jogador.getVida());
-        System.out.println("\n" +
-                "Nome do Inimigo: " + inimigo.getNome() + "\n" +
-                "Vida do Inimigo: " + inimigo.getVida());
+        System.out.println("Inimigo " + numeroInimigo + " de " + totalInimigos);
+
+        System.out.println("\n=== SEU PERSONAGEM ===");
+        System.out.println("Nome: " + jogador.getNome());
+        System.out.println("Vida: " + jogador.getVida() + "/" + jogador.getVidaMaxima());
+        System.out.println("Ataque: " + jogador.getAtaque());
+        System.out.println("Defesa: " + jogador.getDefesa());
+
+        System.out.println("\n=== INIMIGO ATUAL ===");
+        System.out.println("Nome: " + inimigo.getNome());
+        System.out.println("Vida: " + inimigo.getVida());
+        System.out.println("Ataque: " + inimigo.getAtaque());
+        System.out.println("Defesa: " + inimigo.getDefesa());
     }
+
+
 
     public static void turnoDoJogador (Personagem jogador, Inimigo inimigo, Scanner sc, Random random){
         System.out.println("\nEscolha uma ação: ");
@@ -222,9 +250,8 @@ public class Main {
 
     public static int turnoDoInimigo(Inimigo inimigo, Random random) {
         int sorteio = random.nextInt(100);
-        System.out.println("Número sorteado: " + sorteio);
 
-        if (sorteio < 80) {
+        if (sorteio < 70) {
             System.out.println(inimigo.getNome() + " escolheu atacar!");
             return 1;
         } else {
@@ -232,5 +259,4 @@ public class Main {
             return 2;
         }
     }
-
 }
