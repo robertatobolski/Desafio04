@@ -6,10 +6,13 @@ import java.util.ArrayList;
 public class Personagem {
     protected String nome;
     protected int vida;
+    // Armazena a vida inicial do personagem como limite para a cura.
     protected int vidaMaxima;
     protected int ataque;
     protected int defesa;
     protected List<String> inventario = new ArrayList<>();
+
+    protected int usosHabilidade = 2; // Cada personagem pode utilizar sua habilidade especial duas vezes por partida.
 
     public Personagem(String nome, int vida, int ataque, int defesa, List<String> inventario){
         this.nome = nome;
@@ -18,11 +21,10 @@ public class Personagem {
         this.ataque = ataque;
         this.defesa = defesa;
         this.inventario = inventario;
+        // Cada personagem começa a partida com três poções de cura no inventário.
         inventario.add("Poção de cura");
         inventario.add("Poção de cura");
         inventario.add("Poção de cura");
-        inventario.add("Golpe especial");
-        inventario.add("Golpe especial");
     }
 
 
@@ -68,6 +70,14 @@ public class Personagem {
         this.inventario = inventario;
     }
 
+    public int getUsosHabilidade() {
+        return usosHabilidade;
+    }
+    public void setUsosHabilidade(int usosHabilidade) {
+        this.usosHabilidade = usosHabilidade;
+    }
+
+    // Calcula o dano considerando a defesa do alvo.
     public void atacar(Personagem alvo){
          int dano = ataque - alvo.getDefesa();
          if (dano<0){
@@ -82,12 +92,14 @@ public class Personagem {
 
     public void tomarDano(int dano) {
         vida -= dano;
+        // Impede que a vida do personagem fique abaixo de zero.
         if (vida < 0) {
             vida = 0;
         }
     }
 
     public void curar(int vidaRecuperada){
+        // Impede que a recuperação ultrapasse a vida máxima do personagem.
         if ((vida + vidaRecuperada) > vidaMaxima){
             vida = vidaMaxima;
         } else {
@@ -98,22 +110,4 @@ public class Personagem {
     public boolean estaVivo() {
         return vida > 0;
     }
-
-    public void golpeEspecial(Personagem alvo, boolean defendendo) {
-        int ataqueEspecial = (int) (ataque * 1.5);
-        int dano = ataqueEspecial;
-
-        if (defendendo) {
-            dano -= alvo.getDefesa();
-        }
-
-        if (dano < 0) {
-            dano = 0;
-        }
-        alvo.tomarDano(dano);
-
-        System.out.println(nome + " usou o golpe especial!");
-        System.out.println("Causou " + dano + " de dano no " + alvo.getNome());
-    }
-
 }
